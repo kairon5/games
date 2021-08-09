@@ -1,0 +1,29 @@
+#canvas-amazingSkill {
+    display: block;
+    cursor: none;
+    width: 1100px;
+    height: 700px;
+}
+body {
+    width: 100vw;
+    height: 100vh;
+    text-align: center;
+}
+.gameWindow {
+    display: inline-block;
+    text-align: center;
+    border-radius: 1vw;
+}
+#game-imgs {
+    display: block;
+    max-width: 100%;
+    max-height: 10%;
+}
+#amazingSkill-imgs {
+    width: 10vw;
+    height: 7vw;
+}
+
+* {
+    font-family: "Avenir.otf", sans-serif;
+}

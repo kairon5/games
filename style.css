@@ -1,13 +1,17 @@
-#canvas-amazingSkill {
+#canvas-Amazing-Skill {
+    position: relative;
+    left: 50%;
+    transform: translate(-50%, 0%);
     display: block;
     cursor: none;
     width: 1100px;
     height: 700px;
 }
 body {
-    width: 100vw;
-    height: 100vh;
-    text-align: center;
+    width: 99vw;
+    height: 99vh;
+    display: block;
+    background-color: rgb(44, 39, 39);
 }
 .gameWindow {
     display: inline-block;
@@ -18,10 +22,11 @@ body {
     display: block;
     max-width: 100%;
     max-height: 10%;
+    margin-bottom: 3vw;
 }
-#amazingSkill-imgs {
-    width: 10vw;
-    height: 7vw;
+#Amazing-Skill-img {
+    max-width: 10%;
+    max-height: 100%;
 }
 
 * {

@@ -9,7 +9,7 @@ function colliding(w1, w1w, w2, w2w) {
     return false;
 }
 
-const canvas = document.getElementById("canvas-amazingSkill");
+const canvas = document.getElementById("canvas-Amazing-Skill");
 const ctx = canvas.getContext("2d");
 canvas.width = 1100;
 canvas.height = 700;
@@ -262,8 +262,9 @@ class Tank {
                 this.fadeTime = 800;
                 this.radius = 40;
                 this.cannons = [
-                    new Cannon(this.x, this.y, 80, 60, 40, 3, 3, 0, true),
+                    new Cannon(this.x, this.y, 70, 60, 35, 7, 5, 0, true),
                 ];
+                break;
             case "machine-gun":
                 this.radius = 20;
                 this.fadeTime = 300;
@@ -386,6 +387,9 @@ function readHighScore() {
     return highScore;
 }
 highScore = localStorage.getItem("highScore-amazingSkill");
+if (highScore === null) {
+    highScore = 0;
+}
 let playScreen = true;
 function gameLoop() {
     setTimeout(() => {

@@ -3,11 +3,11 @@ class Game {
         this.name = name;
         this.gameS = document.createElement("script");
         this.gameC = document.createElement("canvas");
-        this.gameS.src = `${name}.js`;
+        this.gameS.src = `${name}/${name}.js`;
         this.gameC.id = `canvas-${name}`;
         this.documentIcon = document.createElement("link");
         this.documentIcon.rel = "icon";
-        this.documentIcon.href = `files/${name}.png`;
+        this.documentIcon.href = `${name}/assets/${name}.png`;
         this.window = document.getElementById(`${name}-img`);
     }
 }
@@ -24,9 +24,7 @@ games.forEach((game) => {
             document.body.removeChild(game.gameS);
             document.body.removeChild(game.gameC);
         }
-        document.getElementById(
-            "title"
-        ).innerText = `Games at GameHub - ${game.name}`;
+        document.getElementById("title").innerText = `GameHub - ${game.name}`;
         document.head.appendChild(game.documentIcon);
         document.body.appendChild(game.gameS);
         document.body.appendChild(game.gameC);

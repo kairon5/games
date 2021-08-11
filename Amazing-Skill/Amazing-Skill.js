@@ -371,7 +371,7 @@ let musicPlaying = false;
 canvas.addEventListener("click", () => {
     if (!musicPlaying) {
         musicPlaying = true;
-        let music = new Audio("files/courtesy.mp3");
+        let music = new Audio("Amazing-Skill/assets/courtesy.mp3");
         music.loop = true;
         music.play();
     }

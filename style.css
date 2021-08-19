@@ -7,6 +7,13 @@
     width: 1100px;
     height: 700px;
 }
+#canvas-Arena {
+    position: relative;
+    left: 50%;
+    top: 5%;
+    transform: translate(-50%, 0%);
+    display: block;
+}
 body {
     width: 99vw;
     height: 99vh;
@@ -17,16 +24,14 @@ body {
     display: inline-block;
     text-align: center;
     border-radius: 1vw;
+    max-width: 10%;
+    max-height: 100%;
 }
 #game-imgs {
     display: block;
     max-width: 100%;
     max-height: 10%;
     margin-bottom: 3vw;
-}
-#Amazing-Skill-img {
-    max-width: 10%;
-    max-height: 100%;
 }
 
 * {

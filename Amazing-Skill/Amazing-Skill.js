@@ -366,12 +366,12 @@ let tanks = [];
 let gameFrame = 0;
 let guaranteedSpawn = 0;
 let spawnRate = 2;
-let musicPlaying = false;
+let musicPlayingAS = false;
 
 canvas.addEventListener("click", () => {
-    if (!musicPlaying) {
-        musicPlaying = true;
-        let music = new Audio("Amazing-Skill/assets/courtesy.mp3");
+    if (!musicPlayingAS) {
+        musicPlayingAS = true;
+        let music = document.getElementById("courtesy");
         music.loop = true;
         music.play();
     }

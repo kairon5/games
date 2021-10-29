@@ -190,3 +190,43 @@ function createCircle(x, y, r) {
 function createImage(x, y, w, h, src) {
     return new Img(x, y, w, h, src);
 }
+let curRefreshRes = 0;
+let deltaTime = 0;
+let multiplier = 0;
+function refreshRate() {
+    curRefreshRes = 0;
+    deltaTime = 0;
+    multiplier = 0;
+    if (!window.requestAnimationFrame) {
+        window.requestAnimationFrame =
+            window.mozRequestAnimationFrame ||
+            window.webkitRequestAnimationFrame;
+    }
+
+    let t = [];
+    let results = [];
+    let sum = 0;
+    let testingDone = false;
+    setTimeout(function(){
+        testingDone = true;
+        results.forEach(i => {
+            sum += i;
+        });
+        curRefreshRes = Math.round(sum/results.length);
+        deltaTime = Math.round(1000/curRefreshRes);
+        multiplier = deltaTime/16;
+        //60fps is the standard, so its what the game is programmed for at the base. 16 is the delta time for 60, (1000/60) so we use that as a multiplier. if the hz is 120, we multiply everything by 0.5, while for 30 fps we multiply it by 2.
+    },200);
+    function animate(now) {
+        t.unshift(now);
+        if (t.length > 10) {
+            var t0 = t.pop();
+            var fps = Math.floor(1000 * 10 / (now - t0));
+            results.push(fps); 
+        }
+        if(!testingDone) {
+            window.requestAnimationFrame(animate);
+        }
+    };
+    window.requestAnimationFrame(animate);
+}

@@ -178,8 +178,8 @@ class Cannon {
         this.y = y;
         this.width = width;
         this.height = height;
-        this.bulletSpeed = bulletSpeed;
-        this.bulletRate = bulletRate;
+        this.bulletSpeed = bulletSpeed*multiplier;
+        this.bulletRate = bulletRate*multiplier;
         this.bulletSize = bulletSize;
         this.frame = 0;
     }
@@ -336,9 +336,9 @@ class Tank {
         if (this.red <= 0) {
             this.alive = false;
         }
-        this.red -= 1.5;
-        this.green -= 0.7;
-        this.blue -= 0.7;
+        this.red -= 1.5*multiplier;
+        this.green -= 0.7*multiplier;
+        this.blue -= 0.7*multiplier;
         this.color = `rgb(${this.red},${this.green},${this.blue})`;
     }
     update() {
@@ -363,9 +363,13 @@ class Tank {
     }
 }
 let tanks = [];
+let maxTanks = 3;
+//mintanks is 0.8 and not 1 to stop 2 tanks from immediately spawning. if we set it to one, then 1 tank will spawn in the first frame. but since mintanks gets bigger over time,
+//it will get slightly bigger, causing it to be larger than the length of the list of tanks, spawning another tank. that is why it is 0.9
+let minTanks = 0.9;
 let gameFrame = 0;
 let guaranteedSpawn = 0;
-let spawnRate = 2;
+let spawnRate = 2*multiplier;
 let musicPlayingAS = false;
 
 canvas.addEventListener("click", () => {
@@ -391,10 +395,20 @@ if (highScore === null) {
     highScore = 0;
 }
 let playScreen = true;
+
+//spawnatank is here to clean up the code. if there is anything that will completely stop a tank from spawning, this is here to make it easier to code that
+let spawnATank = false;
 function gameLoop() {
     setTimeout(() => {
+        spawnATank=false;
         if (spawnRate >= 5) {
             spawnRate = 5;
+        }
+        if (minTanks >= 3) {
+            minTanks = 3;
+        }
+        if (maxTanks >= 7) {
+            maxTanks=7;
         }
         let highScorePos = 955;
         for (var i = 0; i < (highScore + "").length; i++) {
@@ -404,17 +418,36 @@ function gameLoop() {
         ctx.fillRect(0, 0, 1100, 700);
         if (player.alive) {
             score = Math.round(gameFrame / 10);
-            spawnRate -= 0.0002;
-            gameFrame++;
-            guaranteedSpawn++;
+            minTanks += 0.0001*multiplier;
+            maxTanks += 0.0002*multiplier;
+            spawnRate += 0.0003*multiplier;
+            gameFrame+=1*multiplier;
+            guaranteedSpawn+=2*multiplier;
             player.update();
-            if (Math.floor(Math.random() * 1000) < spawnRate) {
-                tanks.push(new Tank());
+            if (Math.floor(Math.random() * 800) <= spawnRate) {
+                spawnATank = true;
             }
-            if (guaranteedSpawn > 1000) {
+            if (tanks.length<minTanks) {
+                spawnATank = true;
+            }
+            if (guaranteedSpawn >= 1000) {
                 guaranteedSpawn = 0;
+                spawnATank = true;
+            }
+            if(tanks.length>=maxTanks) {
+                spawnATank = false;
+            }
+            if(tanks.length<=minTanks) {
+                spawnATank = true;
+            }
+            if(spawnATank) {
                 tanks.push(new Tank());
             }
+            tanks.forEach(t => {
+                if(!t.alive) {
+                    tanks.splice(1,tanks.indexOf(t));
+                }
+            });
         }
         let tankColliding = false;
         tanks.forEach((tank) => {
@@ -430,7 +463,10 @@ function gameLoop() {
                     colliding(player, 15, bullet, bullet.radius) ||
                     tankColliding
                 ) {
-                    spawnrate = 10;
+                    guaranteedSpawn = 0;
+                    maxTanks = 3;
+                    minTanks = 1;
+                    spawnrate = 2;
                     gameFrame = 0;
                     bullets = [];
                     tanks = [];
@@ -460,6 +496,9 @@ function gameLoop() {
             }
         }
         gameLoop();
-    }, 16);
+    }, deltaTime);
 }
-gameLoop();
+refreshRate();
+setTimeout(function(){
+    gameLoop();
+},250)
